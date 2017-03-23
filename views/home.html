@@ -1,0 +1,4 @@
+<textarea ng-model="review" ng-disabled="!update"></textarea>
+<button class="btn btn-success" ng-click="saveReview()" ng-show="update">Save</button>
+<button type="button" class="btn btn-warning" ng-click="saveReview()" ng-show="update == false">Update</button>
+<button class="btn btn-danger" ng-click="deleteReview()" ng-hide="review == null">Delete</button>

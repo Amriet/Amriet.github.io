@@ -1,0 +1,15 @@
+{
+  "name": "angular-testing",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "karma start test/karma.conf.js",
+    "start": "http-server"
+  },
+  "author": "Amriet Jainandunsing",
+  "license": "ISC"
+}

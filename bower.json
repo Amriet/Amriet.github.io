@@ -1,0 +1,22 @@
+{
+  "name": "angular-testing",
+  "description": "Demo applicatie tijdens de eerste workshop",
+  "main": "",
+  "authors": [
+    "Amriet Jainandunsing"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-mocks": "^1.6.2",
+    "angular-route": "^1.6.2"
+  }
+}

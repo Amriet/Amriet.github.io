@@ -1,0 +1,44 @@
+<div class="container">
+     <div class="col-md-12 blogShort">
+     <h1> {{ movieTitle }} Review by {{review.username}}</h1>
+     </div>
+
+                 <div class="col-md-12 blogShort">
+                     <article><p>
+                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                         ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only 
+                         five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
+                         of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+                         Lorem Ipsum.    
+                         </p></article>
+                 </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="panel panel-default" ng-repeat="comment in comments">
+                <div class="panel-heading">
+                    <strong>{{comment.username}}</strong> <span class="text-muted">commented 5 days ago</span>
+                </div>
+                <div class="panel-body">
+                    {{comment.comment}}
+                          <div class="btn-group pull-right marginBottom10" ng-show="currentUser.username === comment.username">
+                              <button type="button" class="btn btn-primary btn-warning" ng-click="editComment(comment)"  >Edit</button>
+                              <button type="button" class="btn btn-primary btn-danger" ng-click="deleteComment(comment)"  >Delete</button>
+                          </div>
+                </div><!-- /panel-body -->
+            </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+    </div><!-- /row -->
+</div>
+
+
+<div class="container">
+  <textarea class="writeComment" ng-model="comment"></textarea>
+  <div class="text-right">
+  <button type="button" class="btn btn-primary btn-success pull-right" ng-click="saveComment()">Save</button>
+  </div>
+</div>
+

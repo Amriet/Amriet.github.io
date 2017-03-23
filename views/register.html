@@ -1,0 +1,64 @@
+<div class="container">
+<form name="registerForm" class="form-horizontal" action=''>
+  <fieldset>
+    <div id="legend">
+      <legend class="">Register</legend>
+    </div>
+    <div class="control-group">
+            <!-- First name -->
+      <label class="control-label"  for="firstname">First name</label>
+      <div class="controls">
+        <input type="text" id="firstname" name="firstname" placeholder="" class="input-xlarge" ng-model="firstname" required>
+        <p class="help-block">Firstname can contain any letters or numbers, without spaces</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+          <!-- Last name -->
+      <label class="control-label"  for="lastname">Lastname</label>
+      <div class="controls">
+        <input type="text" id="username" name="lastname" placeholder="" class="input-xlarge" ng-model="lastname" required>
+        <p class="help-block">Lastname can contain any letters or numbers, without spaces</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">Username</label>
+      <p>{{ username | usernameFilter }}</p>
+      <div class="controls">
+        <input type="text" id="username" name="username" placeholder="" class="input-xlarge" ng-model="username" required>
+        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- E-mail -->
+      <label class="control-label" for="email">E-mail</label>
+      <p>{{ email | emailFilter }}</p>
+      <label class="error" ng-show="registerForm.input.$error.required">Required</label>
+      <label class="error" ng-show="registerForm.input.$error.email">Not a valid email</label>
+      <div class="controls">
+        <input type="email" id="email" name="email" placeholder="" class="input-xlarge" ng-model="email" required>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password">Password</label>
+      <p>{{ password | countInputFilter }}</p>
+      <div class="controls">
+        <input type="password" id="password" name="password" placeholder="" class="input-xlarge" ng-model="password" required>
+        <p class="help-block">Password should be at least 4 characters</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-success" ng-click="save()">Register</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>

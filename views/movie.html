@@ -1,0 +1,57 @@
+	<main class="main-content">
+				<div class="container">
+					<div class="page">
+
+						<div class="content">
+							<div class="row">
+								<div class="col-md-6">
+									<figure class="movie-poster"><img class="poster" ng-src={{poster}} alt="#"></figure>
+								</div>
+								<div class="col-md-6">
+									<h2 class="movie-title">{{ movie.title }}</h2>
+									<div class="movie-summary">
+                    <p>{{ movie.overview }}</p>
+                	</div>
+									<ul class="movie-meta">
+										<li><strong>Length:</strong> {{ movie.runtime }} min</li>
+										<li><strong>Premiere:</strong> {{movie.runtime}}</li>
+										<li><strong>Category:</strong> Animation/Adventure/Comedy</li>
+                    <li><strong>Budget:</strong> {{ movie.budget | currency}}</li>
+									</ul>
+
+									<ul class="starring">
+										<li><strong>Directors:</strong> Kirk de Mico (as Kirk DeMico). Chris Sanders</li>
+										<li><strong>Writers:</strong> Chris Sanders (screenplay), Kirk De Micco (screenplay)</li>
+										<li><strong>Stars:</strong> Nicolas Cage, Ryan Reynolds, Emma Stone</li>
+									</ul>
+								</div>
+							</div> <!-- .row -->
+						</div>
+					</div>
+				</div> <!-- .container -->
+			</main>
+
+<div class="container">
+	 <div id="reviews" class="row"> 
+     <div class="col-md-12 blogShort">
+     <h1>Reviews</h1>
+     </div>
+
+                 <div class="col-md-12 blogShort" ng-repeat="review in reviews">
+                     <article><p> {{ review.review}} </p></article>
+                           <div class="btn-group pull-right marginBottom10">
+                              <button type="button" class="btn btn-primary btn-warning" ng-show="review.username === currentUser.username" ng-click="editReview(review)">Edit</button>
+                              <button type="button" class="btn btn-primary btn-success" ng-click="reviewPage(review.reviewID)">Read more</button>
+                              <button type="button" class="btn btn-primary btn-danger" ng-show="review.username === currentUser.username" ng-click="deleteReview(review)">Delete</button>
+                          </div>
+               <div class="col-md-12 gap10"></div>
+             </div>
+</div>
+
+<div class="container" ng-show="isAllowed">
+  <textarea class="writeReview" ng-model="review"></textarea>
+  <div class="text-right">
+  <button type="button" class="btn btn-primary btn-success pull-right" ng-click="saveReview()">Save</button>
+  </div>
+</div>
+
