@@ -38,3 +38,14 @@ movieApp.filter('emailFilter', ['registerService', function(registerService){
 
     };
 }]);
+
+movieApp.filter('passwordValidationFilter', ['registerService', '$scope', function(registerService, $scope){
+    return function(input){
+        input = input || '';
+
+        if($scope.password != $scope.passwordAgain){
+            return 'Please enter a matching password';
+        }
+
+    };
+}]);

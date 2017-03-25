@@ -38,6 +38,7 @@ movieApp.controller('movieController', ['$scope', '$location', 'databaseService'
     };
 
     $scope.deleteReview = function(review){
+        reviewService.deleteComments(review.reviewID);
         reviewService.deleteReviewOrComment(review.movieID, review.username, 'reviews');
         $scope.isAllowed = true;
         getReviews($scope.movie.id, 'reviews');
@@ -145,23 +146,15 @@ movieApp.controller('loginController', ['$scope', '$location', 'loginService', '
 
 movieApp.controller('mainController', ['$scope', 'movieService', '$location', function($scope, movieService, $location){
 
-    $scope.movies;
+    $scope.movies = [];
 
-    $scope.loadMovie = function(val){
-        movieService.getMovies(val).then(function(data){
+    this.load = function(){
+         movieService.getMoviesNowPlaying().then(function(data){
             $scope.movies = data;
-            console.log($scope.movies);
-        });
-    };
+         });
+    }
 
-    $scope.relocate = function(movieTitle){
-        $location.path('/movie/' + movieTitle);
-        console.log('hoi');
-    };
-
-    $scope.movie = function(){
-        $location.path('/movie');
-    };
+    this.load();
 
 }]);
 
@@ -177,6 +170,22 @@ movieApp.controller('registerController', ['$scope', 'databaseService', 'registe
 
 }]);
 
-movieApp.directive('searchBar', function(){
+movieApp.controller('myProfileController', ['$scope', '$location', 'databaseService' , 'loggedService', function($scope, $location, databaseService, loggedService){
 
-});
+    $scope.currentUser = loggedService.getCurrentUser();
+    var oldInformationUser = angular.copy($scope.currentUser);
+
+    $scope.save = function(){
+        loggedService.deleteCurrentUser();
+        databaseService.delete(oldInformationUser.username, 'users');
+        databaseService.save($scope.currentUser, 'users');
+        loggedService.saveCurrentUser($scope.currentUser);
+        $location.path('/');
+    };
+
+    this.repeat = function(){
+        console.log(oldInformationUser);
+    };
+
+    this.repeat();
+}]);

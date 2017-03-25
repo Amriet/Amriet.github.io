@@ -4,6 +4,7 @@ movieApp.service('databaseService',[ function(){
     this.movies = [];
     this.reviews = [];
     this.comments = [];
+    this.collections = [];
 
 
     this.get = function(type){
@@ -12,7 +13,7 @@ movieApp.service('databaseService',[ function(){
     };
 
     this.save = function(data, type){
-        this.get();
+        this.get(type);
         if(this[type] == null){
             this[type] = [];
         }
@@ -22,12 +23,14 @@ movieApp.service('databaseService',[ function(){
     };
 
     this.delete = function(username, type){
-        this.get();
-
+        this.get(type);
+        console.log(username);
+        console.log(this[type]);
         var deleteIndex = -1;
 
         this[type].forEach(function(e, i){
             if(e.username === username){
+                console.log(e);
                 deleteIndex = i;
             }
         });
@@ -155,6 +158,55 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
         return "http://image.tmdb.org/t/p/w500/" + url;
     };
 
+    this.getMovieGenres = function(){
+
+        return $http({
+            method : "GET",
+            url : "https://api.themoviedb.org/3/genre/movie/list" + id + "?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US"        
+        }).then(function(response) {
+           movies = response.data;
+           console.log(response.data);
+           return response.data;
+        });
+    };
+
+    this.getMovieCast = function(movieID){
+
+         return $http({
+            method : "GET",
+            url : "https://api.themoviedb.org/3/movie/" + movieID + "/credits?api_key=ae36d2d591f1ca93a9e7dca55857410c"      
+        }).then(function(response) {
+           movies = response.data;
+           console.log(response.data);
+           return response.data;
+        });
+    };
+
+    this.getMovieRecommendations = function(movieID){
+
+         return $http({
+            method : "GET",
+            url : "https://api.themoviedb.org/3/movie/" + movieID + "/recommendations?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US&page=1"     
+        }).then(function(response) {
+           movies = response.data;
+           console.log(response.data);
+           return response.data;
+        });
+    };
+
+    this.getMoviesNowPlaying = function(){
+
+         return $http({
+            method : "GET",
+            url : "https://api.themoviedb.org/3/movie/now_playing?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US&page=1"   
+        }).then(function(response) {
+           movies = response.data;
+           console.log(response.data);
+           return response.data;
+        });
+    };
+
+
 
 }]);
 
@@ -172,12 +224,12 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
                 id = Math.max.apply(Math, reviewsOrComments.map(function(o){return o.reviewID;})) + 1;
             } else if(type === 'comments'){
                 id = Math.max.apply(Math, reviewsOrComments.map(function(o){return o.commentID;})) + 1;
-            }
+            } 
         }
         else{
             id = 0;
         }
-
+        console.log(id);
         return id;
     };
 
@@ -249,6 +301,23 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
         reviewsOrComments.splice(deleteIndex, 1);
         console.log(reviewsOrComments);
 		localStorage.setItem( type , JSON.stringify(reviewsOrComments));
+    };
+
+    this.deleteComments = function(id){
+
+        var comments = databaseService.get('comments');
+        var deleteIndex = -1;
+
+        var i = comments.length;
+
+        while(i--){
+            if(comments[i].reviewID == id){
+                comments.splice(i, 1);
+            }
+        }
+                    localStorage.setItem('comments', JSON.stringify(comments));
+
+
     };
 
 }]);

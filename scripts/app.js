@@ -34,6 +34,16 @@ movieApp.config(function ($routeProvider){
         controller: 'reviewController'
     })
 
+    .when('/myCollections', {
+        templateUrl: 'views/collection.html',
+        controller: 'createCollectionController'
+    })
+
+    .when('/myProfile', {
+        templateUrl: 'views/myProfile.html',
+        controller: 'myProfileController'
+    })
+
     .otherwise({
         redirectTo: '/'
     })
