@@ -162,10 +162,9 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
 
         return $http({
             method : "GET",
-            url : "https://api.themoviedb.org/3/genre/movie/list" + id + "?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US"        
+            url : "https://api.themoviedb.org/3/genre/movie/list?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US"        
         }).then(function(response) {
            movies = response.data;
-           console.log(response.data);
            return response.data;
         });
     };
@@ -238,13 +237,15 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
 
         var isAllowed = true;
 
-        console.log(movieID);
+        console.log(username);
 
         this.getReviewsOrComments(movieID, 'reviews').forEach(function(e, i){
             if(e.movieID === movieID || e.username === username){
                 isAllowed = false;
             }
         });
+
+        if(username == null){ isAllowed = false};
 
         return isAllowed;
     };

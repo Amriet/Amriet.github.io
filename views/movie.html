@@ -10,19 +10,14 @@
 								<div class="col-md-6">
 									<h2 class="movie-title">{{ movie.title }}</h2>
 									<div class="movie-summary">
-                    <p>{{ movie.overview }}</p>
-                	</div>
+                    				<p>{{ movie.overview }}</p>
+                					</div>
 									<ul class="movie-meta">
 										<li><strong>Length:</strong> {{ movie.runtime }} min</li>
-										<li><strong>Premiere:</strong> {{movie.runtime}}</li>
-										<li><strong>Category:</strong> Animation/Adventure/Comedy</li>
-                    <li><strong>Budget:</strong> {{ movie.budget | currency}}</li>
-									</ul>
-
-									<ul class="starring">
-										<li><strong>Directors:</strong> Kirk de Mico (as Kirk DeMico). Chris Sanders</li>
-										<li><strong>Writers:</strong> Chris Sanders (screenplay), Kirk De Micco (screenplay)</li>
-										<li><strong>Stars:</strong> Nicolas Cage, Ryan Reynolds, Emma Stone</li>
+										<li><strong>Premiere:</strong> {{movie.release_date | date:fullDate}}</li>
+										<li><strong>Category:</strong><span ng-repeat="genre in genres"> {{genre.name}}{{$last ? '' : ', '}} </li>
+                    					<li><strong>Budget:</strong> {{ movie.budget | currency}}</li>
+										<li><strong>Stars:</strong><span ng-repeat="actor in cast | limitTo : 4"> {{actor.name}}{{$last ? '' : ', '}}</li>
 									</ul>
 								</div>
 							</div> <!-- .row -->
@@ -30,6 +25,61 @@
 					</div>
 				</div> <!-- .container -->
 			</main>
+
+<div class="container movieRecommended">
+  <div class="row">
+    <h2 class="recommendedTitle">Recommended Movies</h2>
+  </div>
+  <div class='row'>
+    <div class='col-md-8'>
+      <div class="carousel slide media-carousel" id="media">
+        <div class="carousel-inner">
+          <div class="item  active">
+            <div class="row">
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>          
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>        
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>          
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>        
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>          
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>      
+            </div>
+          </div>
+        </div>
+        <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+        <a data-slide="next" href="#media" class="right carousel-control">›</a>
+      </div>                          
+    </div>
+  </div>
+</div>
 
 <div class="container">
 	 <div id="reviews" class="row"> 

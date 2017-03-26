@@ -6,22 +6,51 @@ movieApp.controller('movieController', ['$scope', '$location', 'databaseService'
     $scope.reviews;
     $scope.poster;
     $scope.isAllowed;
+    $scope.genres = [];
+    $scope.cast;
 
     this.selectedMovie = function(){
              movieService.getMovies($routeParams.movieTitle).then(function(data){
                  var id = data.results[0].id;
+                 getMovieCast(id);
                  $scope.isAllowed = reviewService.canEditOrSave(id, $scope.currentUser);
                  movieService.getMovieDetails(id).then(function(data){
                     $scope.movie = data;
                     getReviews(id, 'reviews');
                     $scope.poster = movieService.getMoviePoster($scope.movie.poster_path);
-
+                    $scope.genres = getMovieGenres();
                  });
         });
     };
 
     var getReviews = function(movieID, type){
         $scope.reviews = reviewService.getReviewsOrComments(movieID, type);
+    };
+
+    var getMovieCast = function(movieID){
+
+        movieService.getMovieCast(movieID).then(function(data){
+            $scope.cast = data.cast;
+        });
+    }
+
+    var getMovieGenres = function(){
+
+        var genres;
+        var movieGenres = [];
+
+        movieService.getMovieGenres().then(function(data){
+            genres = data;
+            angular.forEach($scope.movie.genres, function(item1) {
+                angular.forEach(genres.genres, function(item2) {
+                    if(item1.id === item2.id) {
+                         movieGenres.push(item2);
+                    }
+                });
+               
+            });
+        });
+         return movieGenres;
     };
      
     $scope.editReview = function(review){
@@ -46,7 +75,6 @@ movieApp.controller('movieController', ['$scope', '$location', 'databaseService'
     };
 
     $scope.reviewPage = function(reviewID){
-        console.log(reviewID);
         $location.path('/movie/' + $routeParams.movieTitle + '/reviews/' + reviewID);
     }
 
