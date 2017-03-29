@@ -10,37 +10,37 @@ movieApp.config(function ($routeProvider){
     })
 
     .when('/register', {
-        templateUrl: 'views/register.html',
+        templateUrl: 'movie-spa/views/register.html',
         controller: 'registerController'
     })
 
     .when('/movie/:movieTitle', {
-        templateUrl: 'views/movie.html',
+        templateUrl: 'movie-spa/views/movie.html',
         controller: 'movieController'
     })
 
     .when('/admin', {
-        templateUrl: 'views/admin.html',
+        templateUrl: 'movie-spa/views/admin.html',
         controller: 'adminController'
     })
 
     .when('/loginFailed', {
-        templateUrl: 'views/loginFailed.html',
+        templateUrl: 'movie-spa/views/loginFailed.html',
         controller: 'loginController'
     })
 
     .when('/movie/:movieTitle/reviews/:reviewID', {
-        templateUrl: 'views/review.html',
+        templateUrl: 'movie-spa/views/review.html',
         controller: 'reviewController'
     })
 
     .when('/myCollections', {
-        templateUrl: 'views/collection.html',
+        templateUrl: 'movie-spa/views/collection.html',
         controller: 'createCollectionController'
     })
 
     .when('/myProfile', {
-        templateUrl: 'views/myProfile.html',
+        templateUrl: 'movie-spa/views/myProfile.html',
         controller: 'myProfileController'
     })
 
