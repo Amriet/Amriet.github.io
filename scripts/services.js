@@ -84,7 +84,7 @@ movieApp.service('loginService',['databaseService', 'loggedService', function(da
 
 }]);
 
-movieApp.service('registerService',['databaseService', 'loggedService', function(databaseService, loggedService){
+movieApp.service('registerService',['databaseService', function(databaseService){
     
     this.uniqueUsername = function(username){
         var exists = false;
@@ -120,7 +120,7 @@ movieApp.service('registerService',['databaseService', 'loggedService', function
 
 }]);
 
-movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$q', function(databaseService, loggedService, $http, $q){
+movieApp.service('movieService',['$http', function($http){
     
     var movies;
     
@@ -135,7 +135,6 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
             url : "https://api.themoviedb.org/3/search/movie?api_key=ae36d2d591f1ca93a9e7dca55857410c&query=" + name       
         }).then(function(response) {
            movies = response.data;
-           console.log(response.data);
            return response.data;
         });
 
@@ -148,7 +147,6 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
             url : "https://api.themoviedb.org/3/movie/" + id + "?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US"        
         }).then(function(response) {
            movies = response.data;
-           console.log(response.data);
            return response.data;
         });
 
@@ -176,19 +174,6 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
             url : "https://api.themoviedb.org/3/movie/" + movieID + "/credits?api_key=ae36d2d591f1ca93a9e7dca55857410c"      
         }).then(function(response) {
            movies = response.data;
-           console.log(response.data);
-           return response.data;
-        });
-    };
-
-    this.getMovieRecommendations = function(movieID){
-
-         return $http({
-            method : "GET",
-            url : "https://api.themoviedb.org/3/movie/" + movieID + "/recommendations?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US&page=1"     
-        }).then(function(response) {
-           movies = response.data;
-           console.log(response.data);
            return response.data;
         });
     };
@@ -200,7 +185,6 @@ movieApp.service('movieService',['databaseService', 'loggedService', '$http', '$
             url : "https://api.themoviedb.org/3/movie/now_playing?api_key=ae36d2d591f1ca93a9e7dca55857410c&language=en-US&page=1"   
         }).then(function(response) {
            movies = response.data;
-           console.log(response.data);
            return response.data;
         });
     };

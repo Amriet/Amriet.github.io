@@ -161,6 +161,11 @@ input::-webkit-calendar-picker-indicator {
 	margin-bottom: 30px;
 	list-style: none;
 	li{margin-bottom: 10px}
+    
+}
+
+.movie-meta{
+    margin-left: -7%;
 }
 
 .movie-poster{
@@ -218,6 +223,7 @@ input::-webkit-calendar-picker-indicator {
     border-color: lightgrey;
 	border-width: 1px;
     width: 50%;
+    margin-left: 25%;
 }
 .stylish-input-group button{
     border:0;
