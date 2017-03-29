@@ -5,7 +5,7 @@ movieApp.config(function ($routeProvider){
     $routeProvider
 
     .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'movie-spa/views/main.html',
         controller: 'mainController'
     })
 
