@@ -13,7 +13,9 @@ movieApp.controller('movieController', ['$scope', '$location', 'databaseService'
              movieService.getMovies($routeParams.movieTitle).then(function(data){
                  var id = data.results[0].id;
                  getMovieCast(id);
-                 $scope.isAllowed = reviewService.canEditOrSave(id, $scope.currentUser);
+                 if($scope.currentUser != null){
+                 $scope.isAllowed = reviewService.canEditOrSave(id, $scope.currentUser.username);
+                 }
                  movieService.getMovieDetails(id).then(function(data){
                     $scope.movie = data;
                     getReviews(id, 'reviews');
@@ -54,7 +56,7 @@ movieApp.controller('movieController', ['$scope', '$location', 'databaseService'
     };
      
     $scope.editReview = function(review){
-        reviewService.deleteReview(review.movieID, review.username);
+        reviewService.deleteReviewOrComment(review.movieID, review.username, 'reviews');
         $scope.isAllowed = true;
         $scope.review = review.review;
         getReviews($scope.movie.id, 'reviews');
@@ -118,7 +120,7 @@ $scope.currentUser = loggedService.getCurrentUser();
         reviewService.deleteReviewOrComment(comment.commentID, comment.username, 'comments');
         getComments($scope.review.reviewID);
     };
-
+    console.log($scope.currentUser);
     getReview();
 }]);
 
@@ -128,16 +130,17 @@ movieApp.controller('adminController', ['$scope', 'databaseService', function($s
 
     $scope.removeUser = function(username){
         databaseService.delete(username, 'users');
+        $scope.users = databaseService.get('users');
     }
 
 }]);
 
-movieApp.controller('loginController', ['$scope', '$location', 'loginService', 'loggedService', 'movieService', function($scope, $location, loginService, loggedService, movieService){
-    $scope.test = loggedService.getCurrentUser() != null;
+movieApp.controller('loginController', ['$scope', '$location', 'loginService', 'loggedService', 'movieService', 'firstStartupService', function($scope, $location, loginService, loggedService, movieService, firstStartupService){
+    $scope.test = false;
+    $scope.admin = false;
 
     $scope.login = function(){
         if(loginService.login($scope.email, $scope.password)){
-            $location.path('/');
         }
         else{
             $location.path('/loginFailed');
@@ -146,6 +149,8 @@ movieApp.controller('loginController', ['$scope', '$location', 'loginService', '
 
     $scope.logOut = function(){
         loginService.logOut();
+        $scope.test = false;
+        $scope.admin = false;
     };
     
     $scope.go = function () {
@@ -157,22 +162,35 @@ movieApp.controller('loginController', ['$scope', '$location', 'loginService', '
     $scope.loadMovie = function(val){
         movieService.getMovies(val).then(function(data){
             $scope.movies = data;
-            console.log($scope.movies);
         });
     };
 
     $scope.relocate = function(movieTitle){
         $location.path('/movie/' + movieTitle);
-        console.log('hoi');
     };
 
     $scope.movie = function(){
         $location.path('/movie');
     };
 
+    this.isLoggedIn = function(){
+
+        if(loggedService.getCurrentUser() != null){ 
+            $scope.test = true;
+            if($scope.type = loggedService.getCurrentUser().type === 'Admin'){
+                $scope.admin = true;
+            };
+        };
+        firstStartupService.loadAdmin();
+        
+    };
+
+    this.isLoggedIn();
+    
+
 }]);
 
-movieApp.controller('mainController', ['$scope', 'movieService', '$location', function($scope, movieService, $location){
+movieApp.controller('mainController', ['$scope', 'movieService', function($scope, movieService){
 
     $scope.movies = [];
 
@@ -186,7 +204,7 @@ movieApp.controller('mainController', ['$scope', 'movieService', '$location', fu
 
 }]);
 
-movieApp.controller('registerController', ['$scope', 'databaseService', 'registerService', '$filter', function($scope, databaseService, registerService, $filter){
+movieApp.controller('registerController', ['$scope', 'databaseService', 'registerService', function($scope, databaseService, registerService){
   
   $scope.save = function(){
         if(!registerService.uniqueUsername($scope.username) && !registerService.uniqueEmail($scope.email)){

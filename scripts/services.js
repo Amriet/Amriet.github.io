@@ -18,19 +18,15 @@ movieApp.service('databaseService',[ function(){
             this[type] = [];
         }
         this[type].push(data);
-        console.log('save');
         localStorage.setItem(type, JSON.stringify(this[type]));
     };
 
     this.delete = function(username, type){
         this.get(type);
-        console.log(username);
-        console.log(this[type]);
         var deleteIndex = -1;
 
         this[type].forEach(function(e, i){
             if(e.username === username){
-                console.log(e);
                 deleteIndex = i;
             }
         });
@@ -41,10 +37,19 @@ movieApp.service('databaseService',[ function(){
     };
 }]);
 
-movieApp.service('loggedService',[ function(databaseService){
+movieApp.service('firstStartupService',['databaseService', function(databaseService){
+
+    this.loadAdmin = function(){
+        if(databaseService.get('users') == null){
+            databaseService.save({firstname: 'admin', lastname: 'admin', username: 'administrator', mail: 'admin@gmail.com', pass: 'pass', type: 'Admin'}, 'users');
+        }
+    };
+}]);
+
+
+movieApp.service('loggedService',[ function(){
     
     this.saveCurrentUser = function(user){
-        console.log(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
     };
 
@@ -77,7 +82,6 @@ movieApp.service('loginService',['databaseService', 'loggedService', function(da
 
     this.logOut = function(){
         var loggedInUser = loggedService.getCurrentUser();
-        console.log('komt hier');
 
         if(loggedInUser) loggedService.deleteCurrentUser(); 
     };
@@ -193,13 +197,12 @@ movieApp.service('movieService',['$http', function($http){
 
 }]);
 
-movieApp.service('reviewService',['databaseService', 'loggedService', function(databaseService, loggedService){
+movieApp.service('reviewService',['databaseService', function(databaseService){
     
 
     this.getHighestID = function(type){
 
         var id;
-        console.log(type);
         reviewsOrComments = databaseService.get(type) || [];
 
         if(reviewsOrComments.length != 0 && reviewsOrComments != null){
@@ -212,7 +215,6 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
         else{
             id = 0;
         }
-        console.log(id);
         return id;
     };
 
@@ -220,17 +222,17 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
     this.canEditOrSave = function(movieID, username){
 
         var isAllowed = true;
-
-        console.log(username);
+        console.log(movieID, username);
 
         this.getReviewsOrComments(movieID, 'reviews').forEach(function(e, i){
-            if(e.movieID === movieID || e.username === username){
+            if(e.movieID === movieID && e.username === username){
                 isAllowed = false;
+                console.log('mag niet');
             }
         });
 
         if(username == null){ isAllowed = false};
-
+        console.log(isAllowed);
         return isAllowed;
     };
 
@@ -254,7 +256,6 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
         if(databaseService.get(type) != null){
             databaseService.get(type).forEach(function(e, i){
             if(type === 'reviews' && e.movieID === id ){
-                console.log('hier');
                 reviewsOrComments.push(e);
             }
             else if(type === 'comments' && e.reviewID === id){
@@ -270,6 +271,7 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
     this.deleteReviewOrComment = function(id, username, type){
 
         var reviewsOrComments = databaseService.get(type);
+        console.log(reviewsOrComments);
 
         var deleteIndex = -1;
 
@@ -278,29 +280,30 @@ movieApp.service('reviewService',['databaseService', 'loggedService', function(d
                     deleteIndex = i;
             }
             else if(type === 'comments' && e.commentID === id && e.username === username){
-                    console.log(e.commentID);
                     deleteIndex = i;
             }
         });
 
         reviewsOrComments.splice(deleteIndex, 1);
-        console.log(reviewsOrComments);
 		localStorage.setItem( type , JSON.stringify(reviewsOrComments));
     };
 
     this.deleteComments = function(id){
 
         var comments = databaseService.get('comments');
+        console.log(comments);
         var deleteIndex = -1;
 
-        var i = comments.length;
-
+        if(comments != null){
+                    var i = comments.length;
+            console.log('fout');
         while(i--){
             if(comments[i].reviewID == id){
                 comments.splice(i, 1);
             }
         }
-                    localStorage.setItem('comments', JSON.stringify(comments));
+        };
+       localStorage.setItem('comments', JSON.stringify(comments));
 
 
     };

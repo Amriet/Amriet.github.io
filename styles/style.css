@@ -352,3 +352,15 @@ background: #428bca;
 .recommendedTitle{
 	margin-left: 20%;
 }
+
+#inTheathre{
+    margin-left: 42%;
+}
+
+#reviews{
+    margin-bottom: 5%;
+}
+
+.panel-heading{
+    background-color: darkgray !important;
+}
