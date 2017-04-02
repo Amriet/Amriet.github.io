@@ -97,7 +97,6 @@ $scope.currentUser = loggedService.getCurrentUser();
             $scope.movieTitle = data.original_title;
         });
         getComments($scope.review.reviewID);
-        console.log($scope.comments);
     };
 
     var getComments = function(reviewID){
@@ -120,7 +119,7 @@ $scope.currentUser = loggedService.getCurrentUser();
         reviewService.deleteReviewOrComment(comment.commentID, comment.username, 'comments');
         getComments($scope.review.reviewID);
     };
-    console.log($scope.currentUser);
+
     getReview();
 }]);
 
@@ -204,12 +203,12 @@ movieApp.controller('mainController', ['$scope', 'movieService', function($scope
 
 }]);
 
-movieApp.controller('registerController', ['$scope', 'databaseService', 'registerService', function($scope, databaseService, registerService){
+movieApp.controller('registerController', ['$scope', 'databaseService', 'registerService', '$location', function($scope, databaseService, registerService, $location){
   
   $scope.save = function(){
         if(!registerService.uniqueUsername($scope.username) && !registerService.uniqueEmail($scope.email)){
             databaseService.save({firstname: $scope.firstname, lastname: $scope.lastname, username: $scope.username, mail: $scope.email, pass: $scope.password, type: 'User'}, 'users');
-            console.log('save')
+            $location.path('/');
         }
   }
 
@@ -228,10 +227,4 @@ movieApp.controller('myProfileController', ['$scope', '$location', 'databaseServ
         loggedService.saveCurrentUser($scope.currentUser);
         $location.path('/');
     };
-
-    this.repeat = function(){
-        console.log(oldInformationUser);
-    };
-
-    this.repeat();
 }]);

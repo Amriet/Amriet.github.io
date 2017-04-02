@@ -54,8 +54,11 @@ describe('E2E : Find a movie with the search box', function(){
         expect(movieTitle.getText()).toBe('The Matrix');
 
         var duration = element(by.className('movie-meta')).all(by.tagName('li')).get(0);
-        var release = 
+        var release = element(by.className('movie-meta')).all(by.tagName('li')).get(1);
+        var categorie = element(by.className('movie-meta')).all(by.tagName('li')).get(2);
         expect(duration.getText()).toBe('Length: 136 min');
+        expect(release.getText()).toBe('Premiere: Mar 30, 1999');
+        expect(categorie.getText()).toBe('Category: Action, Science Fiction');
 
     });
 });

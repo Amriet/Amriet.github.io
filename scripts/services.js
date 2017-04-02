@@ -222,17 +222,14 @@ movieApp.service('reviewService',['databaseService', function(databaseService){
     this.canEditOrSave = function(movieID, username){
 
         var isAllowed = true;
-        console.log(movieID, username);
 
         this.getReviewsOrComments(movieID, 'reviews').forEach(function(e, i){
             if(e.movieID === movieID && e.username === username){
                 isAllowed = false;
-                console.log('mag niet');
             }
         });
 
         if(username == null){ isAllowed = false};
-        console.log(isAllowed);
         return isAllowed;
     };
 
@@ -271,7 +268,6 @@ movieApp.service('reviewService',['databaseService', function(databaseService){
     this.deleteReviewOrComment = function(id, username, type){
 
         var reviewsOrComments = databaseService.get(type);
-        console.log(reviewsOrComments);
 
         var deleteIndex = -1;
 
@@ -291,12 +287,10 @@ movieApp.service('reviewService',['databaseService', function(databaseService){
     this.deleteComments = function(id){
 
         var comments = databaseService.get('comments');
-        console.log(comments);
         var deleteIndex = -1;
 
         if(comments != null){
                     var i = comments.length;
-            console.log('fout');
         while(i--){
             if(comments[i].reviewID == id){
                 comments.splice(i, 1);
